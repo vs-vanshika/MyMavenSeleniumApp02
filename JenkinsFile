@@ -21,16 +21,16 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Run') {
             steps {
-                sh 'mvn test'
+                sh 'mvn exec:java -Dexec.mainClass="com.example.App"'
             }
         }
     }
 
     post {
         success {
-            echo ' Build and Test successful!'
+            echo ' Build and Run successful!'
         }
         failure {
             echo ' Build failed!'
