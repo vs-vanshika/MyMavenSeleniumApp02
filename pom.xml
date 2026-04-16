@@ -5,62 +5,107 @@
   <artifactId>MyMavenSeleniumApp02</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>MyMavenSeleniumApp02</name>
+  <name>MyMavenSeleniumApp01</name>
   <url>http://maven.apache.org</url>
   
   
   <dependencies>
-
-    <!-- JUnit 5 -->
     <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter</artifactId>
-        <version>5.10.2</version>
-        <scope>test</scope>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
     </dependency>
-
-    <!-- Selenium -->
+    
     <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-java</artifactId>
-        <version>4.29.0</version>
-    </dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>5.10.2</version>
+    <scope>test</scope>
+</dependency>
 
-</dependencies>
+    <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-java</artifactId>
+    <version>4.29.0</version>
+</dependency>  
+  </dependencies>
+  
   
   
   <!-- Build: Configuring plugins and build settings -->
 <build>
-
-
 <plugins>
+<!-- Example: Maven Compiler Plugin to compile Java code -->
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-compiler-plugin</artifactId>
+<version>3.8.1</version>
+<configuration>
+<source>1.8</source>
+<target>1.8</target>
+</configuration>
+</plugin>
 
     <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-        <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
-        </configuration>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <version>3.1.2</version>
     </plugin>
+  
 
-    <!-- FIXED -->
-    <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M7</version>
-    </plugin>
 
-    <!-- ADD THIS -->
-    <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>3.1.0</version>
-    </plugin>
 
+<!-- Example: Maven Surefire Plugin to run tests -->
+<plugin>
+<groupId>org.apache.maven.plugins</groupId>
+<artifactId>maven-surefire-plugin</artifactId>
+<version>2.22.2</version>
+</plugin>
+
+<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.0.1</version>      
+           <configuration>
+                <archive>
+                    <manifestEntries>
+                        <Main-Class>com.example.App</Main-Class>
+                    </manifestEntries>
+                </archive>
+            </configuration> 
+            
+            
+        </plugin>
+
+<plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>3.6.0</version>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>com.example.App</mainClass>
+                    </manifest>
+                </archive>
+                <descriptorRefs>
+                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>make-assembly</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>single</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+        
+        
 </plugins>
-
-
 </build>  
 </project>

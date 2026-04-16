@@ -10,21 +10,22 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'master',
-                    url: 'https://github.com/vs-vanshika/MyMavenSeleniumApp02.git'
+                    url: 'https://github.com/vs-vanshika/MyMavenSeleniumApp02.git',
+                    credentialsId: 'GitHubCredential'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean compile'
+                sh 'mvn clean package'
             }
         }
 
         stage('Test') {
-    steps {
-        sh 'mvn clean package -DskipTests=true'
-    }
-}
+            steps {
+                sh 'mvn test'
+            }
+        }
         stage('Run') {
             steps {
                 sh 'mvn exec:java -Dexec.mainClass="com.example.App"'
@@ -34,7 +35,7 @@ pipeline {
 
     post {
         success {
-            echo ' Build, Test and Run successful!'
+            echo ' Build and Test successful!'
         }
         failure {
             echo ' Build failed!'

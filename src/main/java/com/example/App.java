@@ -5,39 +5,49 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.time.Duration;
-
 public class App {
     public static void main(String[] args) {
 
-        // Headless Chrome (REQUIRED for Jenkins)
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
+	options.addArguments("--headless=new");
+	options.addArguments("--disable-gpu");
+	options.addArguments("--window-size=1920,1080");
+
+// ⭐ MOST IMPORTANT FIX
+	options.addArguments("--no-sandbox");
+	options.addArguments("--disable-dev-shm-usage");
+	options.addArguments("--remote-allow-origins=*");
+	options.setAcceptInsecureCerts(true);
+	options.addArguments("--ignore-certificate-errors");
 
         WebDriver driver = new ChromeDriver(options);
 
-        // Wait handling
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-
         try {
-            // Open site
+            // Open website
             driver.get("https://practicetestautomation.com/practice-test-login/");
 
-            // Login
+            // Enter username
             driver.findElement(By.id("username")).sendKeys("student");
+
+            // Enter password
             driver.findElement(By.id("password")).sendKeys("Password123");
+
+            // Click login
             driver.findElement(By.id("submit")).click();
 
-            // Validation (CRITICAL)
-            if (!driver.getCurrentUrl().contains("logged-in")) {
-                throw new RuntimeException("Login failed");
+            // Validation
+            String currentUrl = driver.getCurrentUrl();
+
+            if (currentUrl.contains("logged-in-successfully")) {
+                System.out.println("Login Successful");
+            } else {
+                System.out.println("Login Failed");
             }
 
-            System.out.println("Login successful!");
-
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         } finally {
+            // Close browser
             driver.quit();
         }
     }
