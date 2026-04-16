@@ -21,10 +21,10 @@ pipeline {
         }
 
         stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
+    steps {
+        sh 'mvn -o test'
+    }
+}
 
         stage('Run') {
             steps {
