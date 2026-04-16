@@ -10,14 +10,19 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'master',
-                    url: 'https://github.com/vs-vanshika/MyMavenSeleniumApp02.git',
-                    credentialsId: 'GitHubCredential'
+                    url: 'https://github.com/vs-vanshika/MyMavenSeleniumApp02.git'
             }
         }
 
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn clean compile'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
             }
         }
 
@@ -30,7 +35,7 @@ pipeline {
 
     post {
         success {
-            echo ' Build and Run successful!'
+            echo ' Build, Test and Run successful!'
         }
         failure {
             echo ' Build failed!'
